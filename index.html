@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reporte Diario de Obra - Vivienda Unifamiliar</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #f57c00;
+            --primary-hover: #e65100;
+            --primary-light: #fff3e0;
+            --dark-blue: #0f172a;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Ambient Mobile Frame for Desktops (9:16 Aspect Ratio) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e293b;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 430px; /* Standard phone width */
+            height: 100vh;
+            background-color: var(--bg-body);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .mobile-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* On larger screens, mock a beautiful mobile phone frame */
+        @media (min-width: 480px) {
+            body {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                padding: 20px;
+            }
+            .mobile-container {
+                height: 880px; /* 9:16 approximation */
+                border-radius: 40px;
+                border: 10px solid #0f172a;
+                position: relative;
+            }
+            /* Visual indicator for mobile phone notch/speaker */
+            .mobile-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 150px;
+                height: 25px;
+                background-color: #0f172a;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                z-index: 100;
+            }
+        }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1e293b 100%);
+            color: white;
+            padding: 35px 20px 20px 20px;
+            position: relative;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .logo-title h1 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .logo-title span {
+            font-size: 0.7rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+        }
+
+        .header-summary {
+            margin-top: 10px;
+        }
+
+        .header-summary h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Scrollable Content */
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            padding-bottom: 100px; /* Safe space for floating submit action */
+        }
+
+        /* Form Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #cbd5e1;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background-color: #fafafa;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Weather selector styling */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .weather-option {
+            border: 1.5px solid var(--border-color);
+            background-color: #fafafa;
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .weather-option i {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .weather-option span {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .weather-option.active {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            color: var(--primary-hover);
+        }
+
+        .weather-option.active i {
+            color: var(--primary);
+            transform: scale(1.15);
+        }
+
+        /* Labor counters */
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .counter-row:last-child {
+            border-bottom: none;
+        }
+
+        .counter-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .counter-control {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .counter-btn {
+            background-color: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--dark-blue);
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .counter-btn:active {
+            transform: scale(0.9);
+            background-color: var(--border-color);
+        }
+
+        .counter-value {
+            font-weight: 700;
+            font-size: 1.05rem;
+            width: 25px;
+            text-align: center;
+        }
+
+        .labor-total-badge {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .labor-total-badge span:last-child {
+            background-color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Progress lists for tasks */
+        .task-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .task-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .task-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+        }
+
+        .task-percentage {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-container input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+            accent-color: var(--primary);
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .status-badge-container {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .status-badge.active.no-iniciado {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border-color: #fca5a5;
+        }
+
+        .status-badge.active.en-proceso {
+            background-color: #fef3c7;
+            color: #d97706;
+            border-color: #fcd34d;
+        }
+
+        .status-badge.active.completado {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border-color: #86efac;
+        }
+
+        /* Toggle switches */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider-switch {
+            background-color: #ef4444; /* Safety red for incidents */
+        }
+
+        input:checked + .slider-switch:before {
+            transform: translateX(24px);
+        }
+
+        .conditional-textarea {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .file-upload-area i {
+            font-size: 2.2rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .file-upload-area:hover i {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .file-upload-text {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .file-upload-subtext {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .image-preview-container {
+            display: none;
+            position: relative;
+            margin-top: 15px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            aspect-ratio: 16/9;
+        }
+
+        .image-preview-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-img-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(15, 23, 42, 0.8);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .remove-img-btn:hover {
+            background-color: rgba(239, 68, 68, 0.9);
+        }
+
+        /* Floating footer action */
+        .footer-action {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 20px 25px 20px;
+            background: linear-gradient(to top, var(--bg-body) 80%, rgba(248, 250, 252, 0));
+            z-index: 10;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.35);
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 124, 0, 0.45);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background-color: #cbd5e1;
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Modern Overlay Modals */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(15, 23, 42, 0.75);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            padding: 25px;
+            box-sizing: border-box;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Success & Status Animation overlay */
+        .status-panel {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .status-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #dcfce7;
+            color: #22c55e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            margin: 0 auto 20px auto;
+        }
+
+        .status-icon.loading {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Helper Text */
+        .helper-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="header-top">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-helmet-safety"></i>
+                    </div>
+                    <div class="logo-title">
+                        <span>Proyecto Residencial</span>
+                        <h1>VIVIENDA UNIFAMILIAR</h1>
+                    </div>
+                </div>
+                <button class="settings-btn" id="open-settings" title="Configurar Destino Google Sheets">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+            <div class="header-summary">
+                <h2>Reporte Diario de Obra</h2>
+                <div class="header-meta">
+                    <span id="header-date"><i class="fa-solid fa-calendar"></i> --/--/----</span>
+                    <span><i class="fa-solid fa-location-dot"></i> Lote A-12, Sector 1</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <form id="report-form">
+                
+                <!-- CARD 1: GENERAL INFO -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-circle-info"></i> Datos Generales
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="report-date">Fecha de Reporte</label>
+                        <input type="date" id="report-date" name="fecha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supervisor">Responsable en Obra</label>
+                        <input type="text" id="supervisor" name="responsable" placeholder="Nombre del Ing. o Residente" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Condiciones Climáticas</label>
+                        <input type="hidden" id="clima-input" name="clima" value="Soleado">
+                        <div class="weather-grid">
+                            <div class="weather-option active" data-weather="Soleado">
+                                <i class="fa-solid fa-sun"></i>
+                                <span>Soleado</span>
+                            </div>
+                            <div class="weather-option" data-weather="Nublado">
+                                <i class="fa-solid fa-cloud"></i>
+                                <span>Nublado</span>
+                            </div>
+                            <div class="weather-option" data-weather="Lluvioso">
+                                <i class="fa-solid fa-cloud-showers-heavy"></i>
+                                <span>Lluvioso</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: LABOR FORCE -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-users"></i> Personal en Obra (Mano de Obra)
+                    </h3>
+                    
+                    <div class="counter-row">
+                        <span class="counter-label">Residentes / Supervisores</span>
+                        <div class="counter-control">
+                            <button type="button" class="counter-btn minus-btn" data-target="labor-staff">-</button>
+                            <span class="counter-value" id="labor-staff">1</span>
+                            <button type="button" class="counter-btn plus-btn" data-target="labor-staff">+</button>
+                        </div>
+                    </div>
+
+                    <div class="counter-row">
+                        <span class="counter-label">Oficiales / Operarios</span>
+                        <div class="counter-control">
+                            <button type="button" class="counter-btn minus-btn" data-target="labor-operarios">-</button>
+                            <span class="counter-value" id="labor-operarios">2</span>
+                            <button type="button" class="counter-btn plus-btn" data-target="labor-operarios">+</button>
+                        </div>
+                    </div>
+
+                    <div class="counter-row">
+                        <span class="counter-label">Peones / Ayudantes</span>
+                        <div class="counter-control">
+                            <button type="button" class="counter-btn minus-btn" data-target="labor-peones">-</button>
+                            <span class="counter-value" id="labor-peones">4</span>
+                            <button type="button" class="counter-btn plus-btn" data-target="labor-peones">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden inputs for form data collection -->
+                    <input type="hidden" name="cant_staff" id="input-labor-staff" value="1">
+                    <input type="hidden" name="cant_operarios" id="input-labor-operarios" value="2">
+                    <input type="hidden" name="cant_peones" id="input-labor-peones" value="4">
+                    <input type="hidden" name="cant_total" id="input-labor-total" value="7">
+
+                    <div class="labor-total-badge">
+                        <span>Total de Trabajadores Activos</span>
+                        <span id="labor-total-display">7 pers.</span>
+                    </div>
+                </div>
+
+                <!-- CARD 3: WORK PROGRESS -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-bars-progress"></i> Avance de Partidas Clave
+                    </h3>
+
+                    <!-- Partida 1: Cimiento -->
+                    <div class="task-item">
+                        <div class="task-header">
+                            <span class="task-name">1. Movimiento de tierras / Cimiento</span>
+                            <span class="task-percentage" id="pct-p1-label">0%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="p1-slider" name="avance_cimentacion" min="0" max="100" value="0">
+                        </div>
+                        <div class="status-badge-container">
+                            <span class="status-badge active no-iniciado" data-slider="p1-slider" data-val="0">No iniciado</span>
+                            <span class="status-badge en-proceso" data-slider="p1-slider" data-val="50">En proceso</span>
+                            <span class="status-badge completado" data-slider="p1-slider" data-val="100">Completado</span>
+                        </div>
+                    </div>
+
+                    <!-- Partida 2: Estructuras -->
+                    <div class="task-item">
+                        <div class="task-header">
+                            <span class="task-name">2. Estructuras (Columnas, Vigas, Techo)</span>
+                            <span class="task-percentage" id="pct-p2-label">0%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="p2-slider" name="avance_estructuras" min="0" max="100" value="0">
+                        </div>
+                        <div class="status-badge-container">
+                            <span class="status-badge active no-iniciado" data-slider="p2-slider" data-val="0">No iniciado</span>
+                            <span class="status-badge en-proceso" data-slider="p2-slider" data-val="50">En proceso</span>
+                            <span class="status-badge completado" data-slider="p2-slider" data-val="100">Completado</span>
+                        </div>
+                    </div>
+
+                    <!-- Partida 3: Muros/Albañilería -->
+                    <div class="task-item">
+                        <div class="task-header">
+                            <span class="task-name">3. Muros y Albañilería</span>
+                            <span class="task-percentage" id="pct-p3-label">0%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="p3-slider" name="avance_albanileria" min="0" max="100" value="0">
+                        </div>
+                        <div class="status-badge-container">
+                            <span class="status-badge active no-iniciado" data-slider="p3-slider" data-val="0">No iniciado</span>
+                            <span class="status-badge en-proceso" data-slider="p3-slider" data-val="50">En proceso</span>
+                            <span class="status-badge completado" data-slider="p3-slider" data-val="100">Completado</span>
+                        </div>
+                    </div>
+
+                    <!-- Partida 4: Instalaciones -->
+                    <div class="task-item">
+                        <div class="task-header">
+                            <span class="task-name">4. Instalaciones (Eléctricas y Sanitarias)</span>
+                            <span class="task-percentage" id="pct-p4-label">0%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="p4-slider" name="avance_instalaciones" min="0" max="100" value="0">
+                        </div>
+                        <div class="status-badge-container">
+                            <span class="status-badge active no-iniciado" data-slider="p4-slider" data-val="0">No iniciado</span>
+                            <span class="status-badge en-proceso" data-slider="p4-slider" data-val="50">En proceso</span>
+                            <span class="status-badge completado" data-slider="p4-slider" data-val="100">Completado</span>
+                        </div>
+                    </div>
+
+                    <!-- Partida 5: Tarrajeo / Acabados -->
+                    <div class="task-item">
+                        <div class="task-header">
+                            <span class="task-name">5. Tarrajeo y Acabados iniciales</span>
+                            <span class="task-percentage" id="pct-p5-label">0%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="p5-slider" name="avance_acabados" min="0" max="100" value="0">
+                        </div>
+                        <div class="status-badge-container">
+                            <span class="status-badge active no-iniciado" data-slider="p5-slider" data-val="0">No iniciado</span>
+                            <span class="status-badge en-proceso" data-slider="p5-slider" data-val="50">En proceso</span>
+                            <span class="status-badge completado" data-slider="p5-slider" data-val="100">Completado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: MATERIALS AND INCIDENTS -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-truck-ramp-box"></i> Materiales e Incidencias
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="materiales-recibidos">Materiales Recibidos Hoy</label>
+                        <textarea id="materiales-recibidos" name="materiales" rows="3" placeholder="Ej. 100 bolsas Cemento Sol, 1 volquetada arena gruesa..."></textarea>
+                    </div>
+
+                    <div class="toggle-row">
+                        <label style="margin-bottom: 0;">¿Hubo incidentes de seguridad o retrasos?</label>
+                        <label class="switch">
+                            <input type="checkbox" id="incident-toggle">
+                            <span class="slider-switch"></span>
+                        </label>
+                    </div>
+                    <input type="hidden" name="hay_incidentes" id="input-incidentes" value="No">
+
+                    <div class="form-group conditional-textarea" id="incident-detail-group">
+                        <label for="incident-details" style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Detalle de Incidentes o Retrasos</label>
+                        <textarea id="incident-details" name="detalles_incidentes" rows="3" placeholder="Indique qué sucedió, personal afectado o motivos de retraso..."></textarea>
+                    </div>
+                </div>
+
+                <!-- CARD 5: PHOTOGRAPHIC EVIDENCES -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-camera"></i> Evidencia Fotográfica
+                    </h3>
+                    
+                    <div class="file-upload-area" onclick="document.getElementById('file-input').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <div class="file-upload-text">Presione aquí para tomar o subir foto</div>
+                        <div class="file-upload-subtext">Cargar foto del avance de obra</div>
+                    </div>
+                    
+                    <input type="file" id="file-input" accept="image/*" capture="environment">
+                    <!-- Base64 storage inputs -->
+                    <input type="hidden" name="photo_base64" id="photo-base64">
+                    <input type="hidden" name="photo_filename" id="photo-filename">
+
+                    <div class="image-preview-container" id="preview-container">
+                        <img id="image-preview" src="" alt="Vista previa de avance">
+                        <button type="button" class="remove-img-btn" id="remove-preview-btn">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div class="helper-text">
+                        La fotografía se guardará de forma automática en una carpeta de Google Drive y se creará un enlace en la hoja de cálculo.
+                    </div>
+                </div>
+
+                <!-- CARD 6: GENERAL OBSERVATIONS -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-comment-dots"></i> Observaciones Generales
+                    </h3>
+                    <div class="form-group">
+                        <label for="observaciones">Notas adicionales del día</label>
+                        <textarea id="observaciones" name="observaciones" rows="3" placeholder="Cualquier información adicional importante a reportar..."></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- FLOATING ACTION FOOTER -->
+        <div class="footer-action">
+            <button type="button" class="submit-btn" id="submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Enviar Reporte Diario
+            </button>
+        </div>
+
+        <!-- SETTINGS MODAL (For sheet URL setup) -->
+        <div class="overlay" id="settings-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Configuración de Envío</h3>
+                    <button class="close-modal-btn" id="close-settings">&times;</button>
+                </div>
+                <div class="form-group">
+                    <label for="web-app-url">Google Apps Script Web App URL</label>
+                    <input type="text" id="web-app-url" placeholder="https://script.google.com/macros/s/.../exec">
+                    <div class="helper-text" style="margin-top: 8px;">
+                        Pegue la URL obtenida al desplegar el archivo Google Apps Script como Aplicación Web (Acceso: Cualquier persona).
+                    </div>
+                </div>
+                <button type="button" class="submit-btn" id="save-settings-btn" style="margin-top: 15px; padding: 12px;">
+                    Guardar Configuración
+                </button>
+            </div>
+        </div>
+
+        <!-- STATUS OVERLAY (Submitting, Success, Error) -->
+        <div class="overlay" id="status-overlay">
+            <div class="modal" style="max-width: 320px;">
+                
+                <!-- Loading State -->
+                <div class="status-panel" id="state-loading">
+                    <div class="status-icon loading">
+                        <i class="fa-solid fa-circle-notch"></i>
+                    </div>
+                    <div class="status-title">Enviando Reporte</div>
+                    <div class="status-text">Guardando datos en Google Sheets y subiendo evidencia fotográfica a Google Drive. Por favor, espere...</div>
+                </div>
+
+                <!-- Success State -->
+                <div class="status-panel" id="state-success" style="display: none;">
+                    <div class="status-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="status-title">¡Reporte Enviado!</div>
+                    <div class="status-text">Los datos de avance de obra han sido registrados correctamente en Google Sheet y la fotografía en Google Drive.</div>
+                    <button type="button" class="submit-btn" id="btn-success-ok" style="background-color: #22c55e; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);">
+                        Aceptar
+                    </button>
+                </div>
+
+                <!-- Error State -->
+                <div class="status-panel" id="state-error" style="display: none;">
+                    <div class="status-icon" style="background-color: #fee2e2; color: #ef4444;">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="status-title">Error al Enviar</div>
+                    <div class="status-text" id="error-message-text">No se pudo enviar el reporte. Asegúrese de haber configurado la URL correcta de Apps Script y tener conexión a internet.</div>
+                    <button type="button" class="submit-btn" id="btn-error-ok" style="background-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);">
+                        Reintentar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN APP SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Establish today's date in local format
+            const dateInput = document.getElementById('report-date');
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+            
+            // Format dates for display
+            updateHeaderDate(year, month, day);
+
+            dateInput.addEventListener('change', (e) => {
+                if(e.target.value) {
+                    const [y, m, d] = e.target.value.split('-');
+                    updateHeaderDate(y, m, d);
+                }
+            });
+
+            function updateHeaderDate(y, m, d) {
+                document.getElementById('header-date').innerHTML = `<i class="fa-solid fa-calendar"></i> ${d}/${m}/${y}`;
+            }
+
+            // Weather Selection
+            const weatherOptions = document.querySelectorAll('.weather-option');
+            const climaInput = document.getElementById('clima-input');
+            weatherOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    weatherOptions.forEach(o => o.classList.remove('active'));
+                    opt.classList.add('active');
+                    climaInput.value = opt.getAttribute('data-weather');
+                });
+            });
+
+            // Labor Counter Adjustments
+            const minusBtns = document.querySelectorAll('.minus-btn');
+            const plusBtns = document.querySelectorAll('.plus-btn');
+
+            minusBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    const labelSpan = document.getElementById(targetId);
+                    let currentVal = parseInt(labelSpan.textContent);
+                    if (currentVal > 0) {
+                        currentVal--;
+                        labelSpan.textContent = currentVal;
+                        document.getElementById('input-' + targetId).value = currentVal;
+                        updateLaborTotal();
+                    }
+                });
+            });
+
+            plusBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    const labelSpan = document.getElementById(targetId);
+                    let currentVal = parseInt(labelSpan.textContent);
+                    currentVal++;
+                    labelSpan.textContent = currentVal;
+                    document.getElementById('input-' + targetId).value = currentVal;
+                    updateLaborTotal();
+                });
+            });
+
+            function updateLaborTotal() {
+                const staff = parseInt(document.getElementById('labor-staff').textContent);
+                const operarios = parseInt(document.getElementById('labor-operarios').textContent);
+                const peones = parseInt(document.getElementById('labor-peones').textContent);
+                
+                const total = staff + operarios + peones;
+                document.getElementById('labor-total-display').textContent = `${total} pers.`;
+                document.getElementById('input-labor-total').value = total;
+            }
+
+            // Sliders and Status Badges
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const label = document.getElementById(`pct-${slider.id}-label`);
+                
+                // Update badge and label when slider moves
+                slider.addEventListener('input', () => {
+                    label.textContent = `${slider.value}%`;
+                    updateBadgesFromValue(slider);
+                });
+            });
+
+            // Status badges behavior
+            const statusBadges = document.querySelectorAll('.status-badge');
+            statusBadges.forEach(badge => {
+                badge.addEventListener('click', () => {
+                    const sliderId = badge.getAttribute('data-slider');
+                    const slider = document.getElementById(sliderId);
+                    const val = parseInt(badge.getAttribute('data-val'));
+                    
+                    slider.value = val;
+                    document.getElementById(`pct-${sliderId}-label`).textContent = `${val}%`;
+                    
+                    // Activate class manually for current item
+                    const parentRow = badge.closest('.task-item');
+                    parentRow.querySelectorAll('.status-badge').forEach(b => b.classList.remove('active'));
+                    badge.classList.add('active');
+                });
+            });
+
+            function updateBadgesFromValue(slider) {
+                const parentRow = slider.closest('.task-item');
+                const badges = parentRow.querySelectorAll('.status-badge');
+                badges.forEach(b => b.classList.remove('active'));
+                
+                const val = parseInt(slider.value);
+                if (val === 0) {
+                    badges[0].classList.add('active');
+                } else if (val === 100) {
+                    badges[2].classList.add('active');
+                } else {
+                    badges[1].classList.add('active');
+                }
+            }
+
+            // Safety Incident Toggle
+            const incidentToggle = document.getElementById('incident-toggle');
+            const incidentGroup = document.getElementById('incident-detail-group');
+            const incidentInput = document.getElementById('input-incidentes');
+            const incidentTextarea = document.getElementById('incident-details');
+
+            incidentToggle.addEventListener('change', () => {
+                if (incidentToggle.checked) {
+                    incidentGroup.style.display = 'block';
+                    incidentInput.value = "Sí";
+                    incidentTextarea.setAttribute('required', 'true');
+                } else {
+                    incidentGroup.style.display = 'none';
+                    incidentInput.value = "No";
+                    incidentTextarea.removeAttribute('required');
+                    incidentTextarea.value = '';
+                }
+            });
+
+            // Photographic upload and Base64 conversion
+            const fileInput = document.getElementById('file-input');
+            const previewContainer = document.getElementById('preview-container');
+            const imagePreview = document.getElementById('image-preview');
+            const removePreviewBtn = document.getElementById('remove-preview-btn');
+            const photoBase64 = document.getElementById('photo-base64');
+            const photoFilename = document.getElementById('photo-filename');
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    photoFilename.value = `OBRA_${new Date().getTime()}_${file.name.replace(/\s+/g, '_')}`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imagePreview.src = event.target.result;
+                        previewContainer.style.display = 'block';
+                        
+                        // Extract only the raw base64 data without the data:image/png;base64, prefix
+                        const base64String = event.target.result.split(',')[1];
+                        photoBase64.value = base64String;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            removePreviewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fileInput.value = '';
+                imagePreview.src = '';
+                previewContainer.style.display = 'none';
+                photoBase64.value = '';
+                photoFilename.value = '';
+            });
+
+            // LocalStorage WebApp URL Configuration
+            const openSettingsBtn = document.getElementById('open-settings');
+            const closeSettingsBtn = document.getElementById('close-settings');
+            const settingsOverlay = document.getElementById('settings-overlay');
+            const saveSettingsBtn = document.getElementById('save-settings-btn');
+            const webAppUrlInput = document.getElementById('web-app-url');
+
+            // Load saved settings URL on startup
+            const savedUrl = localStorage.getItem('gas_webapp_url');
+            if (savedUrl) {
+                webAppUrlInput.value = savedUrl;
+            }
+
+            openSettingsBtn.addEventListener('click', () => {
+                settingsOverlay.classList.add('active');
+            });
+
+            closeSettingsBtn.addEventListener('click', () => {
+                settingsOverlay.classList.remove('active');
+            });
+
+            saveSettingsBtn.addEventListener('click', () => {
+                const url = webAppUrlInput.value.trim();
+                if (url === '' || url.startsWith('https://script.google.com/')) {
+                    localStorage.setItem('gas_webapp_url', url);
+                    settingsOverlay.classList.remove('active');
+                    alert('✓ ¡Configuración guardada correctamente!');
+                } else {
+                    alert('⚠ Ingrese una URL válida de Google Apps Script Web App.');
+                }
+            });
+
+            // Submit Action
+            const submitBtn = document.getElementById('submit-btn');
+            const statusOverlay = document.getElementById('status-overlay');
+            
+            const stateLoading = document.getElementById('state-loading');
+            const stateSuccess = document.getElementById('state-success');
+            const stateError = document.getElementById('state-error');
+
+            const btnSuccessOk = document.getElementById('btn-success-ok');
+            const btnErrorOk = document.getElementById('btn-error-ok');
+
+            submitBtn.addEventListener('click', async () => {
+                // Trigger HTML5 validations
+                const form = document.getElementById('report-form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                // Check if Google Apps Script URL has been configured
+                const scriptUrl = localStorage.getItem('gas_webapp_url');
+                if (!scriptUrl) {
+                    alert('⚠ Primero configure la URL de Google Apps Script presionando el ícono de engranaje (⚙) en el encabezado.');
+                    settingsOverlay.classList.add('active');
+                    return;
+                }
+
+                // Gather form data
+                const formData = new FormData(form);
+                
+                // Formulate payload as simple object
+                const payload = {};
+                formData.forEach((value, key) => {
+                    payload[key] = value;
+                });
+
+                // Show submitting loading overlay
+                statusOverlay.classList.add('active');
+                stateLoading.style.display = 'block';
+                stateSuccess.style.display = 'none';
+                stateError.style.display = 'none';
+
+                try {
+                    // Submit report using fetch with json content or urlencoded parameters
+                    // To circumvent CORS in App Script, we can use a application/x-www-form-urlencoded POST
+                    const searchParams = new URLSearchParams();
+                    for (const pair of formData.entries()) {
+                        searchParams.append(pair[0], pair[1]);
+                    }
+
+                    // Perform request
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors', // standard practice for GAS without complex CORS headers
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: searchParams.toString()
+                    });
+
+                    // Since 'no-cors' mode is utilized, response won't return details (opaque), but it means it sent successfully!
+                    // Let's wait 1.5 seconds for a friendly effect
+                    setTimeout(() => {
+                        stateLoading.style.display = 'none';
+                        stateSuccess.style.display = 'block';
+                        
+                        // Clear form upon success
+                        form.reset();
+                        document.getElementById('labor-staff').textContent = "1";
+                        document.getElementById('labor-operarios').textContent = "2";
+                        document.getElementById('labor-peones').textContent = "4";
+                        updateLaborTotal();
+                        
+                        // Reset slider labels and active classes
+                        sliders.forEach(slider => {
+                            slider.value = 0;
+                            document.getElementById(`pct-${slider.id}-label`).textContent = "0%";
+                            updateBadgesFromValue(slider);
+                        });
+                        
+                        // Reset image previwer
+                        previewContainer.style.display = 'none';
+                        imagePreview.src = '';
+                        photoBase64.value = '';
+                        photoFilename.value = '';
+                        
+                        // Reset weather selectors
+                        weatherOptions.forEach(o => o.classList.remove('active'));
+                        weatherOptions[0].classList.add('active');
+                        climaInput.value = "Soleado";
+
+                        // Reset incidents toggle
+                        incidentGroup.style.display = 'none';
+                        incidentInput.value = "No";
+                        incidentTextarea.removeAttribute('required');
+                    }, 1500);
+
+                } catch (error) {
+                    console.error("Submission error:", error);
+                    stateLoading.style.display = 'none';
+                    stateError.style.display = 'block';
+                    document.getElementById('error-message-text').textContent = 
+                        `Hubo un error de conexión: ${error.message || 'Verifique su conexión e intente nuevamente.'}`;
+                }
+            });
+
+            // Close status overlay controls
+            btnSuccessOk.addEventListener('click', () => {
+                statusOverlay.classList.remove('active');
+            });
+
+            btnErrorOk.addEventListener('click', () => {
+                statusOverlay.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
