@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reporte Diario de Obra - Vivienda Unifamiliar</title>
+    <title>Reporte Diario de Obra Dinámico - WBS</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -138,7 +138,7 @@
 
         .logo-title h1 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #ffffff;
@@ -178,7 +178,7 @@
 
         .header-summary h2 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
@@ -215,11 +215,6 @@
             transition: var(--transition);
         }
 
-        .card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: #cbd5e1;
-        }
-
         .card-title {
             display: flex;
             align-items: center;
@@ -241,10 +236,6 @@
         /* Form Fields */
         .form-group {
             margin-bottom: 18px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
 
         label {
@@ -306,7 +297,6 @@
         .weather-option i {
             font-size: 1.4rem;
             color: var(--text-muted);
-            transition: var(--transition);
         }
 
         .weather-option span {
@@ -361,12 +351,6 @@
             cursor: pointer;
             color: var(--dark-blue);
             font-weight: bold;
-            transition: var(--transition);
-        }
-
-        .counter-btn:active {
-            transform: scale(0.9);
-            background-color: var(--border-color);
         }
 
         .counter-value {
@@ -396,11 +380,35 @@
             font-size: 0.8rem;
         }
 
-        /* Progress lists for tasks */
+        /* Category and WBS Tasks Styling */
+        .category-group {
+            margin-bottom: 25px;
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-header {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .task-item {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
         }
 
         .task-item:last-child {
@@ -412,20 +420,40 @@
         .task-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .task-name-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .task-wbs {
+            font-size: 0.72rem;
+            font-weight: 700;
+            background-color: #e2e8f0;
+            color: var(--text-muted);
+            padding: 2px 6px;
+            border-radius: 4px;
+            width: fit-content;
         }
 
         .task-name {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--dark-blue);
+            line-height: 1.3;
         }
 
         .task-percentage {
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--primary);
+            min-width: 45px;
+            text-align: right;
         }
 
         .slider-container {
@@ -453,11 +481,6 @@
             background: var(--primary);
             cursor: pointer;
             box-shadow: 0 0 4px rgba(0,0,0,0.2);
-            transition: var(--transition);
-        }
-
-        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
         }
 
         .status-badge-container {
@@ -494,6 +517,36 @@
             background-color: #dcfce7;
             color: #16a34a;
             border-color: #86efac;
+        }
+
+        /* Loading Skeletons */
+        .skeleton {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: loading-skeleton 1.5s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes loading-skeleton {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-card {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .skeleton-title {
+            height: 20px;
+            width: 60%;
+        }
+
+        .skeleton-item {
+            height: 50px;
+            width: 100%;
         }
 
         /* Toggle switches */
@@ -563,8 +616,8 @@
             border-radius: var(--radius-md);
             text-align: center;
             cursor: pointer;
-            transition: var(--transition);
             background-color: #fafafa;
+            transition: var(--transition);
         }
 
         .file-upload-area:hover {
@@ -576,12 +629,6 @@
             font-size: 2.2rem;
             color: var(--text-muted);
             margin-bottom: 10px;
-            transition: var(--transition);
-        }
-
-        .file-upload-area:hover i {
-            color: var(--primary);
-            transform: translateY(-3px);
         }
 
         .file-upload-text {
@@ -630,11 +677,6 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .remove-img-btn:hover {
-            background-color: rgba(239, 68, 68, 0.9);
         }
 
         /* Floating footer action */
@@ -669,11 +711,6 @@
         .submit-btn:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(245, 124, 0, 0.45);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
         }
 
         .submit-btn:disabled {
@@ -682,6 +719,26 @@
             box-shadow: none;
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* Config / Setup Notice */
+        .notice-box {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-md);
+            padding: 15px;
+            color: #1e40af;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .notice-box i {
+            font-size: 1.1rem;
+            margin-top: 2px;
         }
 
         /* Modern Overlay Modals */
@@ -742,7 +799,7 @@
             cursor: pointer;
         }
 
-        /* Success & Status Animation overlay */
+        /* Status Panels */
         .status-panel {
             text-align: center;
             padding: 20px 10px;
@@ -784,14 +841,6 @@
             line-height: 1.5;
             margin-bottom: 20px;
         }
-
-        /* Helper Text */
-        .helper-text {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            line-height: 1.4;
-        }
     </style>
 </head>
 <body>
@@ -806,8 +855,8 @@
                         <i class="fa-solid fa-helmet-safety"></i>
                     </div>
                     <div class="logo-title">
-                        <span>Proyecto Residencial</span>
-                        <h1>VIVIENDA UNIFAMILIAR</h1>
+                        <span>Gestión de Proyectos</span>
+                        <h1 id="header-project-title">REPORTE DINÁMICO</h1>
                     </div>
                 </div>
                 <button class="settings-btn" id="open-settings" title="Configurar Destino Google Sheets">
@@ -815,16 +864,25 @@
                 </button>
             </div>
             <div class="header-summary">
-                <h2>Reporte Diario de Obra</h2>
+                <h2>Control de Avance (WBS)</h2>
                 <div class="header-meta">
                     <span id="header-date"><i class="fa-solid fa-calendar"></i> --/--/----</span>
-                    <span><i class="fa-solid fa-location-dot"></i> Lote A-12, Sector 1</span>
+                    <span><i class="fa-solid fa-file-excel"></i> Excel Vinculado</span>
                 </div>
             </div>
         </header>
 
         <!-- CONTENT -->
         <div class="content">
+            
+            <!-- Setup Warning Box if Web App URL is missing -->
+            <div class="notice-box" id="url-missing-notice">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                    <strong>Falta vincular la Planilla:</strong> Presiona el engranaje (⚙️) arriba a la derecha y pega tu URL de Google Apps Script. Las actividades y el WBS se cargarán en esta pantalla de forma 100% automática desde tu Google Sheets.
+                </div>
+            </div>
+
             <form id="report-form">
                 
                 <!-- CARD 1: GENERAL INFO -->
@@ -840,7 +898,7 @@
 
                     <div class="form-group">
                         <label for="supervisor">Responsable en Obra</label>
-                        <input type="text" id="supervisor" name="responsable" placeholder="Nombre del Ing. o Residente" required>
+                        <input type="text" id="supervisor" name="responsable" placeholder="Nombre del Ing. o Inspector" required>
                     </div>
 
                     <div class="form-group">
@@ -866,7 +924,7 @@
                 <!-- CARD 2: LABOR FORCE -->
                 <div class="card">
                     <h3 class="card-title">
-                        <i class="fa-solid fa-users"></i> Personal en Obra (Mano de Obra)
+                        <i class="fa-solid fa-users"></i> Personal en Obra
                     </h3>
                     
                     <div class="counter-row">
@@ -903,96 +961,28 @@
                     <input type="hidden" name="cant_total" id="input-labor-total" value="7">
 
                     <div class="labor-total-badge">
-                        <span>Total de Trabajadores Activos</span>
+                        <span>Total Trabajadores Activos</span>
                         <span id="labor-total-display">7 pers.</span>
                     </div>
                 </div>
 
-                <!-- CARD 3: WORK PROGRESS -->
-                <div class="card">
+                <!-- CARD 3: DYNAMIC WORK PROGRESS (LOADED FROM SHEET) -->
+                <div class="card" id="dynamic-wbs-card">
                     <h3 class="card-title">
-                        <i class="fa-solid fa-bars-progress"></i> Avance de Partidas Clave
+                        <i class="fa-solid fa-bars-progress"></i> Avance por Actividades (WBS)
                     </h3>
-
-                    <!-- Partida 1: Cimiento -->
-                    <div class="task-item">
-                        <div class="task-header">
-                            <span class="task-name">1. Movimiento de tierras / Cimiento</span>
-                            <span class="task-percentage" id="pct-p1-label">0%</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="p1-slider" name="avance_cimentacion" min="0" max="100" value="0">
-                        </div>
-                        <div class="status-badge-container">
-                            <span class="status-badge active no-iniciado" data-slider="p1-slider" data-val="0">No iniciado</span>
-                            <span class="status-badge en-proceso" data-slider="p1-slider" data-val="50">En proceso</span>
-                            <span class="status-badge completado" data-slider="p1-slider" data-val="100">Completado</span>
-                        </div>
+                    
+                    <!-- Loading skeleton before API returns -->
+                    <div id="wbs-loading-skeleton" style="display:none;">
+                        <div class="skeleton skeleton-title" style="margin-bottom: 15px;"></div>
+                        <div class="skeleton skeleton-item" style="margin-bottom: 15px;"></div>
+                        <div class="skeleton skeleton-item" style="margin-bottom: 15px;"></div>
+                        <div class="skeleton skeleton-title" style="margin-top: 25px; margin-bottom: 15px;"></div>
+                        <div class="skeleton skeleton-item"></div>
                     </div>
 
-                    <!-- Partida 2: Estructuras -->
-                    <div class="task-item">
-                        <div class="task-header">
-                            <span class="task-name">2. Estructuras (Columnas, Vigas, Techo)</span>
-                            <span class="task-percentage" id="pct-p2-label">0%</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="p2-slider" name="avance_estructuras" min="0" max="100" value="0">
-                        </div>
-                        <div class="status-badge-container">
-                            <span class="status-badge active no-iniciado" data-slider="p2-slider" data-val="0">No iniciado</span>
-                            <span class="status-badge en-proceso" data-slider="p2-slider" data-val="50">En proceso</span>
-                            <span class="status-badge completado" data-slider="p2-slider" data-val="100">Completado</span>
-                        </div>
-                    </div>
-
-                    <!-- Partida 3: Muros/Albañilería -->
-                    <div class="task-item">
-                        <div class="task-header">
-                            <span class="task-name">3. Muros y Albañilería</span>
-                            <span class="task-percentage" id="pct-p3-label">0%</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="p3-slider" name="avance_albanileria" min="0" max="100" value="0">
-                        </div>
-                        <div class="status-badge-container">
-                            <span class="status-badge active no-iniciado" data-slider="p3-slider" data-val="0">No iniciado</span>
-                            <span class="status-badge en-proceso" data-slider="p3-slider" data-val="50">En proceso</span>
-                            <span class="status-badge completado" data-slider="p3-slider" data-val="100">Completado</span>
-                        </div>
-                    </div>
-
-                    <!-- Partida 4: Instalaciones -->
-                    <div class="task-item">
-                        <div class="task-header">
-                            <span class="task-name">4. Instalaciones (Eléctricas y Sanitarias)</span>
-                            <span class="task-percentage" id="pct-p4-label">0%</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="p4-slider" name="avance_instalaciones" min="0" max="100" value="0">
-                        </div>
-                        <div class="status-badge-container">
-                            <span class="status-badge active no-iniciado" data-slider="p4-slider" data-val="0">No iniciado</span>
-                            <span class="status-badge en-proceso" data-slider="p4-slider" data-val="50">En proceso</span>
-                            <span class="status-badge completado" data-slider="p4-slider" data-val="100">Completado</span>
-                        </div>
-                    </div>
-
-                    <!-- Partida 5: Tarrajeo / Acabados -->
-                    <div class="task-item">
-                        <div class="task-header">
-                            <span class="task-name">5. Tarrajeo y Acabados iniciales</span>
-                            <span class="task-percentage" id="pct-p5-label">0%</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="p5-slider" name="avance_acabados" min="0" max="100" value="0">
-                        </div>
-                        <div class="status-badge-container">
-                            <span class="status-badge active no-iniciado" data-slider="p5-slider" data-val="0">No iniciado</span>
-                            <span class="status-badge en-proceso" data-slider="p5-slider" data-val="50">En proceso</span>
-                            <span class="status-badge completado" data-slider="p5-slider" data-val="100">Completado</span>
-                        </div>
-                    </div>
+                    <!-- Dynamic activities will append here -->
+                    <div id="wbs-activities-container"></div>
                 </div>
 
                 <!-- CARD 4: MATERIALS AND INCIDENTS -->
@@ -1003,7 +993,7 @@
 
                     <div class="form-group">
                         <label for="materiales-recibidos">Materiales Recibidos Hoy</label>
-                        <textarea id="materiales-recibidos" name="materiales" rows="3" placeholder="Ej. 100 bolsas Cemento Sol, 1 volquetada arena gruesa..."></textarea>
+                        <textarea id="materiales-recibidos" name="materiales" rows="3" placeholder="Ej. 50 bolsas cemento, 1 camión de arena gruesa..."></textarea>
                     </div>
 
                     <div class="toggle-row">
@@ -1017,7 +1007,7 @@
 
                     <div class="form-group conditional-textarea" id="incident-detail-group">
                         <label for="incident-details" style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Detalle de Incidentes o Retrasos</label>
-                        <textarea id="incident-details" name="detalles_incidentes" rows="3" placeholder="Indique qué sucedió, personal afectado o motivos de retraso..."></textarea>
+                        <textarea id="incident-details" name="detalles_incidentes" rows="3" placeholder="Indique qué sucedió, personal involucrado o motivo del retraso..."></textarea>
                     </div>
                 </div>
 
@@ -1030,7 +1020,7 @@
                     <div class="file-upload-area" onclick="document.getElementById('file-input').click()">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         <div class="file-upload-text">Presione aquí para tomar o subir foto</div>
-                        <div class="file-upload-subtext">Cargar foto del avance de obra</div>
+                        <div class="file-upload-subtext">Foto del avance de obra</div>
                     </div>
                     
                     <input type="file" id="file-input" accept="image/*" capture="environment">
@@ -1044,9 +1034,6 @@
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
-                    <div class="helper-text">
-                        La fotografía se guardará de forma automática en una carpeta de Google Drive y se creará un enlace en la hoja de cálculo.
-                    </div>
                 </div>
 
                 <!-- CARD 6: GENERAL OBSERVATIONS -->
@@ -1056,7 +1043,7 @@
                     </h3>
                     <div class="form-group">
                         <label for="observaciones">Notas adicionales del día</label>
-                        <textarea id="observaciones" name="observaciones" rows="3" placeholder="Cualquier información adicional importante a reportar..."></textarea>
+                        <textarea id="observaciones" name="observaciones" rows="3" placeholder="Escriba comentarios adicionales importantes..."></textarea>
                     </div>
                 </div>
 
@@ -1065,13 +1052,13 @@
 
         <!-- FLOATING ACTION FOOTER -->
         <div class="footer-action">
-            <button type="button" class="submit-btn" id="submit-btn">
+            <button type="button" class="submit-btn" id="submit-btn" disabled>
                 <i class="fa-solid fa-paper-plane"></i>
                 Enviar Reporte Diario
             </button>
         </div>
 
-        <!-- SETTINGS MODAL (For sheet URL setup) -->
+        <!-- SETTINGS MODAL -->
         <div class="overlay" id="settings-overlay">
             <div class="modal">
                 <div class="modal-header">
@@ -1101,7 +1088,7 @@
                         <i class="fa-solid fa-circle-notch"></i>
                     </div>
                     <div class="status-title">Enviando Reporte</div>
-                    <div class="status-text">Guardando datos en Google Sheets y subiendo evidencia fotográfica a Google Drive. Por favor, espere...</div>
+                    <div class="status-text">Guardando en Google Sheets y subiendo evidencia fotográfica. Por favor, espere...</div>
                 </div>
 
                 <!-- Success State -->
@@ -1111,7 +1098,7 @@
                     </div>
                     <div class="status-title">¡Reporte Enviado!</div>
                     <div class="status-text">Los datos de avance de obra han sido registrados correctamente en Google Sheet y la fotografía en Google Drive.</div>
-                    <button type="button" class="submit-btn" id="btn-success-ok" style="background-color: #22c55e; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);">
+                    <button type="button" class="submit-btn" id="btn-success-ok" style="background-color: #22c55e;">
                         Aceptar
                     </button>
                 </div>
@@ -1122,8 +1109,8 @@
                         <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                     <div class="status-title">Error al Enviar</div>
-                    <div class="status-text" id="error-message-text">No se pudo enviar el reporte. Asegúrese de haber configurado la URL correcta de Apps Script y tener conexión a internet.</div>
-                    <button type="button" class="submit-btn" id="btn-error-ok" style="background-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);">
+                    <div class="status-text" id="error-message-text">No se pudo enviar el reporte. Verifique la URL e intente de nuevo.</div>
+                    <button type="button" class="submit-btn" id="btn-error-ok" style="background-color: #ef4444;">
                         Reintentar
                     </button>
                 </div>
@@ -1144,9 +1131,7 @@
             const day = String(today.getDate()).padStart(2, '0');
             dateInput.value = `${year}-${month}-${day}`;
             
-            // Format dates for display
             updateHeaderDate(year, month, day);
-
             dateInput.addEventListener('change', (e) => {
                 if(e.target.value) {
                     const [y, m, d] = e.target.value.split('-');
@@ -1209,51 +1194,6 @@
                 document.getElementById('input-labor-total').value = total;
             }
 
-            // Sliders and Status Badges
-            const sliders = document.querySelectorAll('input[type="range"]');
-            sliders.forEach(slider => {
-                const label = document.getElementById(`pct-${slider.id}-label`);
-                
-                // Update badge and label when slider moves
-                slider.addEventListener('input', () => {
-                    label.textContent = `${slider.value}%`;
-                    updateBadgesFromValue(slider);
-                });
-            });
-
-            // Status badges behavior
-            const statusBadges = document.querySelectorAll('.status-badge');
-            statusBadges.forEach(badge => {
-                badge.addEventListener('click', () => {
-                    const sliderId = badge.getAttribute('data-slider');
-                    const slider = document.getElementById(sliderId);
-                    const val = parseInt(badge.getAttribute('data-val'));
-                    
-                    slider.value = val;
-                    document.getElementById(`pct-${sliderId}-label`).textContent = `${val}%`;
-                    
-                    // Activate class manually for current item
-                    const parentRow = badge.closest('.task-item');
-                    parentRow.querySelectorAll('.status-badge').forEach(b => b.classList.remove('active'));
-                    badge.classList.add('active');
-                });
-            });
-
-            function updateBadgesFromValue(slider) {
-                const parentRow = slider.closest('.task-item');
-                const badges = parentRow.querySelectorAll('.status-badge');
-                badges.forEach(b => b.classList.remove('active'));
-                
-                const val = parseInt(slider.value);
-                if (val === 0) {
-                    badges[0].classList.add('active');
-                } else if (val === 100) {
-                    badges[2].classList.add('active');
-                } else {
-                    badges[1].classList.add('active');
-                }
-            }
-
             // Safety Incident Toggle
             const incidentToggle = document.getElementById('incident-toggle');
             const incidentGroup = document.getElementById('incident-detail-group');
@@ -1285,13 +1225,10 @@
                 const file = e.target.files[0];
                 if (file) {
                     photoFilename.value = `OBRA_${new Date().getTime()}_${file.name.replace(/\s+/g, '_')}`;
-                    
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         imagePreview.src = event.target.result;
                         previewContainer.style.display = 'block';
-                        
-                        // Extract only the raw base64 data without the data:image/png;base64, prefix
                         const base64String = event.target.result.split(',')[1];
                         photoBase64.value = base64String;
                     };
@@ -1314,11 +1251,24 @@
             const settingsOverlay = document.getElementById('settings-overlay');
             const saveSettingsBtn = document.getElementById('save-settings-btn');
             const webAppUrlInput = document.getElementById('web-app-url');
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const urlNotice = document.getElementById('url-missing-notice');
 
-            // Load saved settings URL on startup
-            const savedUrl = localStorage.getItem('gas_webapp_url');
-            if (savedUrl) {
-                webAppUrlInput.value = savedUrl;
+            // Load saved settings URL and load dynamic activities
+            let scriptUrl = localStorage.getItem('gas_webapp_url');
+            if (scriptUrl) {
+                webAppUrlInput.value = scriptUrl;
+                urlNotice.style.display = 'none';
+                loadDynamicActivities(scriptUrl);
+            } else {
+                urlNotice.style.display = 'flex';
+                // Show prompt instructions in dynamic activities container
+                document.getElementById('wbs-activities-container').innerHTML = 
+                    `<div style="text-align:center; color: var(--text-muted); padding: 20px; font-size: 0.85rem;">
+                        <i class="fa-solid fa-database" style="font-size: 1.5rem; color: #cbd5e1; margin-bottom: 10px; display:block;"></i>
+                        Las actividades aparecerán aquí una vez que configures y vincules tu Google Sheet.
+                    </div>`;
             }
 
             openSettingsBtn.addEventListener('click', () => {
@@ -1334,16 +1284,164 @@
                 if (url === '' || url.startsWith('https://script.google.com/')) {
                     localStorage.setItem('gas_webapp_url', url);
                     settingsOverlay.classList.remove('active');
+                    scriptUrl = url;
+                    
+                    if (url) {
+                        urlNotice.style.display = 'none';
+                        loadDynamicActivities(url);
+                    } else {
+                        urlNotice.style.display = 'flex';
+                        submitBtn.disabled = true;
+                        document.getElementById('wbs-activities-container').innerHTML = '';
+                    }
                     alert('✓ ¡Configuración guardada correctamente!');
                 } else {
                     alert('⚠ Ingrese una URL válida de Google Apps Script Web App.');
                 }
             });
 
+            // LOAD WBS ACTIVITIES DYNAMICALLY
+            async function loadDynamicActivities(url) {
+                const skeleton = document.getElementById('wbs-loading-skeleton');
+                const container = document.getElementById('wbs-activities-container');
+                
+                skeleton.style.display = 'block';
+                container.innerHTML = '';
+                submitBtn.disabled = true;
+
+                try {
+                    // Make a GET request to the Google Apps Script to fetch WBS items
+                    const response = await fetch(url + '?action=getWBS');
+                    if (!response.ok) throw new Error("Error en respuesta del servidor");
+                    
+                    const data = await response.json();
+                    skeleton.style.display = 'none';
+
+                    if (data && data.status === "success" && data.activities && data.activities.length > 0) {
+                        renderWBSActivities(data.activities);
+                        submitBtn.disabled = false;
+                        
+                        // Set project title in header if provided
+                        if (data.projectName) {
+                            document.getElementById('header-project-title').textContent = data.projectName.toUpperCase();
+                        }
+                    } else {
+                        container.innerHTML = 
+                            `<div style="color: #ef4444; font-size: 0.85rem; padding: 15px; text-align: center;">
+                                <strong>La planilla se inicializó con éxito:</strong> Vuelve a recargar o haz clic <a href="#" id="reload-link" style="color:var(--primary); font-weight:700; text-decoration:underline;">aquí</a> para cargar la lista predeterminada de actividades.
+                            </div>`;
+                        
+                        document.getElementById('reload-link')?.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            loadDynamicActivities(url);
+                        });
+                    }
+                } catch (error) {
+                    console.error("Fetch activities error:", error);
+                    skeleton.style.display = 'none';
+                    container.innerHTML = 
+                        `<div style="color: #ef4444; font-size: 0.82rem; padding: 15px; background: #fee2e2; border-radius: 8px; border: 1px solid #fca5a5;">
+                            <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
+                            <strong>Error al cargar actividades:</strong> Asegúrese de que la URL de Apps Script sea correcta, esté desplegada como "Cualquier persona" (Anyone) y tenga conexión a internet.<br><br>
+                            <button type="button" onclick="location.reload()" style="background:#ef4444; border:none; color:white; padding:6px 12px; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">Reintentar Carga</button>
+                        </div>`;
+                }
+            }
+
+            // RENDER WBS SLIDERS GROUPED BY CATEGORY
+            function renderWBSActivities(activities) {
+                const container = document.getElementById('wbs-activities-container');
+                
+                // Group activities by Categoria
+                const groups = {};
+                activities.forEach(act => {
+                    const cat = act.categoria || "Generales";
+                    if (!groups[cat]) groups[cat] = [];
+                    groups[cat].push(act);
+                });
+
+                // Generate HTML for each group and task
+                let html = '';
+                for (const [categoryName, items] of Object.entries(groups)) {
+                    html += `
+                    <div class="category-group">
+                        <div class="category-header">
+                            <i class="fa-solid fa-layer-group"></i> ${categoryName}
+                        </div>`;
+                    
+                    items.forEach(item => {
+                        const sanitizedWBS = item.wbs.toString().replace(/\./g, '_');
+                        html += `
+                        <div class="task-item">
+                            <div class="task-header">
+                                <div class="task-name-container">
+                                    <span class="task-wbs">WBS ${item.wbs}</span>
+                                    <span class="task-name">${item.actividad}</span>
+                                </div>
+                                <span class="task-percentage" id="pct-wbs_${sanitizedWBS}-label">0%</span>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wbs_${sanitizedWBS}" name="wbs_${item.wbs}" min="0" max="100" value="0">
+                            </div>
+                            <div class="status-badge-container">
+                                <span class="status-badge active no-iniciado" data-slider="wbs_${sanitizedWBS}" data-val="0">No iniciado</span>
+                                <span class="status-badge en-proceso" data-slider="wbs_${sanitizedWBS}" data-val="50">En proceso</span>
+                                <span class="status-badge completado" data-slider="wbs_${sanitizedWBS}" data-val="100">Completado</span>
+                            </div>
+                        </div>`;
+                    });
+
+                    html += `</div>`;
+                }
+                
+                container.innerHTML = html;
+
+                // Re-bind events to the dynamically added sliders
+                const dynamicSliders = container.querySelectorAll('input[type="range"]');
+                dynamicSliders.forEach(slider => {
+                    const label = document.getElementById(`pct-${slider.id}-label`);
+                    
+                    slider.addEventListener('input', () => {
+                        label.textContent = `${slider.value}%`;
+                        updateBadgesFromValue(slider);
+                    });
+                });
+
+                // Re-bind events to dynamic badges
+                const dynamicBadges = container.querySelectorAll('.status-badge');
+                dynamicBadges.forEach(badge => {
+                    badge.addEventListener('click', () => {
+                        const sliderId = badge.getAttribute('data-slider');
+                        const slider = document.getElementById(sliderId);
+                        const val = parseInt(badge.getAttribute('data-val'));
+                        
+                        slider.value = val;
+                        document.getElementById(`pct-${sliderId}-label`).textContent = `${val}%`;
+                        
+                        const parentRow = badge.closest('.task-item');
+                        parentRow.querySelectorAll('.status-badge').forEach(b => b.classList.remove('active'));
+                        badge.classList.add('active');
+                    });
+                });
+            }
+
+            function updateBadgesFromValue(slider) {
+                const parentRow = slider.closest('.task-item');
+                const badges = parentRow.querySelectorAll('.status-badge');
+                badges.forEach(b => b.classList.remove('active'));
+                
+                const val = parseInt(slider.value);
+                if (val === 0) {
+                    badges[0].classList.add('active');
+                } else if (val === 100) {
+                    badges[2].classList.add('active');
+                } else {
+                    badges[1].classList.add('active');
+                }
+            }
+
             // Submit Action
-            const submitBtn = document.getElementById('submit-btn');
             const statusOverlay = document.getElementById('status-overlay');
-            
             const stateLoading = document.getElementById('state-loading');
             const stateSuccess = document.getElementById('state-success');
             const stateError = document.getElementById('state-error');
@@ -1352,56 +1450,45 @@
             const btnErrorOk = document.getElementById('btn-error-ok');
 
             submitBtn.addEventListener('click', async () => {
-                // Trigger HTML5 validations
                 const form = document.getElementById('report-form');
                 if (!form.checkValidity()) {
                     form.reportValidity();
                     return;
                 }
 
-                // Check if Google Apps Script URL has been configured
-                const scriptUrl = localStorage.getItem('gas_webapp_url');
                 if (!scriptUrl) {
-                    alert('⚠ Primero configure la URL de Google Apps Script presionando el ícono de engranaje (⚙) en el encabezado.');
-                    settingsOverlay.classList.add('active');
+                    alert('⚠ Vincule su URL de Apps Script.');
                     return;
                 }
 
                 // Gather form data
                 const formData = new FormData(form);
-                
-                // Formulate payload as simple object
-                const payload = {};
-                formData.forEach((value, key) => {
-                    payload[key] = value;
-                });
 
-                // Show submitting loading overlay
                 statusOverlay.classList.add('active');
                 stateLoading.style.display = 'block';
                 stateSuccess.style.display = 'none';
                 stateError.style.display = 'none';
 
                 try {
-                    // Submit report using fetch with json content or urlencoded parameters
-                    // To circumvent CORS in App Script, we can use a application/x-www-form-urlencoded POST
                     const searchParams = new URLSearchParams();
                     for (const pair of formData.entries()) {
                         searchParams.append(pair[0], pair[1]);
                     }
 
-                    // Perform request
-                    const response = await fetch(scriptUrl, {
+                    // Append actions indicator to POST
+                    searchParams.append('action', 'submitReport');
+
+                    // Perform request to Apps Script
+                    await fetch(scriptUrl, {
                         method: 'POST',
-                        mode: 'no-cors', // standard practice for GAS without complex CORS headers
+                        mode: 'no-cors',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
                         body: searchParams.toString()
                     });
 
-                    // Since 'no-cors' mode is utilized, response won't return details (opaque), but it means it sent successfully!
-                    // Let's wait 1.5 seconds for a friendly effect
+                    // Success trigger (simulated delays for aesthetics)
                     setTimeout(() => {
                         stateLoading.style.display = 'none';
                         stateSuccess.style.display = 'block';
@@ -1413,14 +1500,15 @@
                         document.getElementById('labor-peones').textContent = "4";
                         updateLaborTotal();
                         
-                        // Reset slider labels and active classes
-                        sliders.forEach(slider => {
+                        // Reset dynamic sliders
+                        const dynamicSliders = container.querySelectorAll('input[type="range"]');
+                        dynamicSliders.forEach(slider => {
                             slider.value = 0;
                             document.getElementById(`pct-${slider.id}-label`).textContent = "0%";
                             updateBadgesFromValue(slider);
                         });
                         
-                        // Reset image previwer
+                        // Reset image previewer
                         previewContainer.style.display = 'none';
                         imagePreview.src = '';
                         photoBase64.value = '';
@@ -1442,13 +1530,15 @@
                     stateLoading.style.display = 'none';
                     stateError.style.display = 'block';
                     document.getElementById('error-message-text').textContent = 
-                        `Hubo un error de conexión: ${error.message || 'Verifique su conexión e intente nuevamente.'}`;
+                        `Hubo un error al guardar en la Hoja: ${error.message || 'Intente de nuevo.'}`;
                 }
             });
 
             // Close status overlay controls
             btnSuccessOk.addEventListener('click', () => {
                 statusOverlay.classList.remove('active');
+                // Reload activities to get fresh percentage states or reset interface
+                if (scriptUrl) loadDynamicActivities(scriptUrl);
             });
 
             btnErrorOk.addEventListener('click', () => {
