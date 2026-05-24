@@ -1255,8 +1255,11 @@
             const submitBtn = document.getElementById('submit-btn');
             const urlNotice = document.getElementById('url-missing-notice');
 
-            // Load saved settings URL and load dynamic activities
-            let scriptUrl = localStorage.getItem('gas_webapp_url');
+            // URL por defecto del Web App de Google Apps Script.
+            // Si la publicas en GitHub Pages, puedes pegar aquí tu URL para que funcione directamente para todos los usuarios.
+            const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyae2oyUFit7SVebedGhTLabZV-oXnb7ZSy1WaymwTxp1f7BgylBif5Kd29zXl8ul-4VA/exec'; 
+
+            let scriptUrl = localStorage.getItem('gas_webapp_url') || DEFAULT_SCRIPT_URL;
             if (scriptUrl) {
                 webAppUrlInput.value = scriptUrl;
                 urlNotice.style.display = 'none';
