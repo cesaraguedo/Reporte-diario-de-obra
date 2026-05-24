@@ -1255,24 +1255,32 @@
             const submitBtn = document.getElementById('submit-btn');
             const urlNotice = document.getElementById('url-missing-notice');
 
+            // Actividades de prueba basadas en buenas prácticas de construcción y valor ganado
+            const DEFAULT_ACTIVITIES = [
+                { wbs: "1.1", categoria: "Cimentación", actividad: "Excavación manual de zanjas para cimientos" },
+                { wbs: "1.2", categoria: "Cimentación", actividad: "Habilitado de fierro y vaciado de solados" },
+                { wbs: "2.1", categoria: "Estructura", actividad: "Habilitado e instalación de acero en columnas" },
+                { wbs: "2.2", categoria: "Estructura", actividad: "Encofrado y vaciado de concreto en columnas" },
+                { wbs: "2.3", categoria: "Estructura", actividad: "Encofrado de vigas y losa aligerada de techo" },
+                { wbs: "3.1", categoria: "Albañilería", actividad: "Asentado de ladrillos en muros portantes" },
+                { wbs: "4.1", categoria: "Instalaciones", actividad: "Instalación de tuberías sanitarias y eléctricas" },
+                { wbs: "5.1", categoria: "Acabados", actividad: "Tarrajeo de muros interiores y exteriores" }
+            ];
+
             // URL por defecto del Web App de Google Apps Script.
-            // Si la publicas en GitHub Pages, puedes pegar aquí tu URL para que funcione directamente para todos los usuarios.
             const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyae2oyUFit7SVebedGhTLabZV-oXnb7ZSy1WaymwTxp1f7BgylBif5Kd29zXl8ul-4VA/exec'; 
 
             let scriptUrl = localStorage.getItem('gas_webapp_url') || DEFAULT_SCRIPT_URL;
             if (scriptUrl) {
                 webAppUrlInput.value = scriptUrl;
                 urlNotice.style.display = 'none';
-                loadDynamicActivities(scriptUrl);
             } else {
                 urlNotice.style.display = 'flex';
-                // Show prompt instructions in dynamic activities container
-                document.getElementById('wbs-activities-container').innerHTML = 
-                    `<div style="text-align:center; color: var(--text-muted); padding: 20px; font-size: 0.85rem;">
-                        <i class="fa-solid fa-database" style="font-size: 1.5rem; color: #cbd5e1; margin-bottom: 10px; display:block;"></i>
-                        Las actividades aparecerán aquí una vez que configures y vincules tu Google Sheet.
-                    </div>`;
             }
+
+            // Cargar actividades de prueba de forma local directamente
+            renderWBSActivities(DEFAULT_ACTIVITIES);
+            submitBtn.disabled = false;
 
             openSettingsBtn.addEventListener('click', () => {
                 settingsOverlay.classList.add('active');
@@ -1291,65 +1299,14 @@
                     
                     if (url) {
                         urlNotice.style.display = 'none';
-                        loadDynamicActivities(url);
                     } else {
                         urlNotice.style.display = 'flex';
-                        submitBtn.disabled = true;
-                        document.getElementById('wbs-activities-container').innerHTML = '';
                     }
                     alert('✓ ¡Configuración guardada correctamente!');
                 } else {
                     alert('⚠ Ingrese una URL válida de Google Apps Script Web App.');
                 }
             });
-
-            // LOAD WBS ACTIVITIES DYNAMICALLY
-            async function loadDynamicActivities(url) {
-                const skeleton = document.getElementById('wbs-loading-skeleton');
-                const container = document.getElementById('wbs-activities-container');
-                
-                skeleton.style.display = 'block';
-                container.innerHTML = '';
-                submitBtn.disabled = true;
-
-                try {
-                    // Make a GET request to the Google Apps Script to fetch WBS items
-                    const response = await fetch(url + '?action=getWBS');
-                    if (!response.ok) throw new Error("Error en respuesta del servidor");
-                    
-                    const data = await response.json();
-                    skeleton.style.display = 'none';
-
-                    if (data && data.status === "success" && data.activities && data.activities.length > 0) {
-                        renderWBSActivities(data.activities);
-                        submitBtn.disabled = false;
-                        
-                        // Set project title in header if provided
-                        if (data.projectName) {
-                            document.getElementById('header-project-title').textContent = data.projectName.toUpperCase();
-                        }
-                    } else {
-                        container.innerHTML = 
-                            `<div style="color: #ef4444; font-size: 0.85rem; padding: 15px; text-align: center;">
-                                <strong>La planilla se inicializó con éxito:</strong> Vuelve a recargar o haz clic <a href="#" id="reload-link" style="color:var(--primary); font-weight:700; text-decoration:underline;">aquí</a> para cargar la lista predeterminada de actividades.
-                            </div>`;
-                        
-                        document.getElementById('reload-link')?.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            loadDynamicActivities(url);
-                        });
-                    }
-                } catch (error) {
-                    console.error("Fetch activities error:", error);
-                    skeleton.style.display = 'none';
-                    container.innerHTML = 
-                        `<div style="color: #ef4444; font-size: 0.82rem; padding: 15px; background: #fee2e2; border-radius: 8px; border: 1px solid #fca5a5;">
-                            <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
-                            <strong>Error al cargar actividades:</strong> Asegúrese de que la URL de Apps Script sea correcta, esté desplegada como "Cualquier persona" (Anyone) y tenga conexión a internet.<br><br>
-                            <button type="button" onclick="location.reload()" style="background:#ef4444; border:none; color:white; padding:6px 12px; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">Reintentar Carga</button>
-                        </div>`;
-                }
-            }
 
             // RENDER WBS SLIDERS GROUPED BY CATEGORY
             function renderWBSActivities(activities) {
@@ -1540,8 +1497,6 @@
             // Close status overlay controls
             btnSuccessOk.addEventListener('click', () => {
                 statusOverlay.classList.remove('active');
-                // Reload activities to get fresh percentage states or reset interface
-                if (scriptUrl) loadDynamicActivities(scriptUrl);
             });
 
             btnErrorOk.addEventListener('click', () => {
